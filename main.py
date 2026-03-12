@@ -9,7 +9,7 @@ import os
 
 # 1. Configuration
 EXPENSES_URL = os.environ.get('SHEETY_API_URL')
-FORM_URL = os.environ.get('EXPENSES_URL')
+FORM_URL = os.environ.get('EXPENSES_FORM')
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CSV_FILE = ""
 DATE_ENTRY_ID = "entry.858835467"  # The ID for your Date field
@@ -113,6 +113,7 @@ if __name__ == "__main__":
 #             file.write(f"{time_now}: Success! The request was successful. Adding {body["expense"]["item"]} with a value of: {body["expense"]["amount"]}\n")
 #         else:
 #             file.write(f"Request failed with status code: {response.status_code} Failed when tried to add {body["expense"]["item"]} with a value of: {body["expense"]["amount"]}\n")
+
 
 
 
