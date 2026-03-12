@@ -1,0 +1,25 @@
+name: Monthly Budget Sync
+on:
+  schedule:
+    - cron: '0 0 12 * *' # Runs at 00:00 on the 1st of every month
+  workflow_dispatch: # Allows you to click a button to run it manually for testing
+
+jobs:
+  run-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Script
+        run: python main.py
+      - name: Keep the CSV (Optional)
+        # This "uploads" your saved CSV so you can download it from GitHub later
+        uses: actions/upload-artifact@v4
+        with:
+          name: monthly-csv
+          path: "*.csv"
