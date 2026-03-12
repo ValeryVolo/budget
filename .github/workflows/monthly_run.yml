@@ -27,9 +27,6 @@ jobs:
 
       - name: Run Script
         # THIS IS THE KEY PART YOU WERE MISSING:
-        env:
-          SHEETY_URL: ${{ secrets.SHEETY_API_URL }}
-          ESPENSES_URL: ${{ secrets.EXPENSES_URL }}
         run: python main.py
 
       - name: Archive processed CSV
