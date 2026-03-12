@@ -23,3 +23,8 @@ jobs:
         with:
           name: monthly-csv
           path: "*.csv"
+      - name: Run Script
+        env:
+          # This connects your GitHub Secret to the Python script
+          SHEETY_URL: ${{ secrets.SHEETY_URL }} 
+        run: python main.py
