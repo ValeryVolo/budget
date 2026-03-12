@@ -8,8 +8,8 @@ import os
 # SHEETY_ENDPOINT_EXPENSES = "https://api.sheety.co/6b500d383340c356b1a7995e68cc95e4/budget/expenses"
 
 # 1. Configuration
-EXPENSES_URL = os.environ.get('SHEETY_API_URL')
-FORM_URL = os.environ.get('EXPENSES_FORM')
+EXPENSES_URL = "https://api.sheety.co/6b500d383340c356b1a7995e68cc95e4/budget/regularExpenses"
+FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe-EEdHd0JEmtdcH0hdeM-dvx0DAZwUgHTZvsST8DqjHg1BRw/formResponse"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CSV_FILE = ""
 DATE_ENTRY_ID = "entry.858835467"  # The ID for your Date field
@@ -113,6 +113,7 @@ if __name__ == "__main__":
 #             file.write(f"{time_now}: Success! The request was successful. Adding {body["expense"]["item"]} with a value of: {body["expense"]["amount"]}\n")
 #         else:
 #             file.write(f"Request failed with status code: {response.status_code} Failed when tried to add {body["expense"]["item"]} with a value of: {body["expense"]["amount"]}\n")
+
 
 
 
