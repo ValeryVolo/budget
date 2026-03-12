@@ -3,7 +3,7 @@ name: Monthly Budget Sync
 on:
   schedule:
     # Runs at 00:00 on the 1st of every month
-    - cron: '0 0 12 * *'
+    - cron: '0 10 12 * *'
   # This allows you to click the "Run workflow" button manually for testing
   workflow_dispatch:
 
