@@ -26,13 +26,37 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install pandas requests; fi
 
       - name: Run Script
-        # THIS IS THE KEY PART YOU WERE MISSING:
         run: python main.py
 
       - name: Archive processed CSV
         # This saves your CSV so you can download it from the GitHub Actions tab
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: processed-budget-csv
           path: "*.csv"
           retention-days: 30
+
+      - name: Archive log file
+        # Save the detailed log for debugging
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: budget-sync-logs
+          path: "budget_sync.log"
+          retention-days: 30
+
+      - name: Print logs on failure
+        # Display logs in workflow summary if script fails
+        if: failure()
+        run: |
+          echo "## ❌ Budget Sync Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Log Output:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          if [ -f budget_sync.log ]; then
+            cat budget_sync.log >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Log file not found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo '```' >> $GITHUB_STEP_SUMMARY
