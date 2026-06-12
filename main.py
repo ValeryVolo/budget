@@ -174,4 +174,49 @@ def process_and_send():
                 successful_submissions += 1
             else:
                 logger.warning(f"  ⚠ Row {index + 1}: Submission may have failed (small response)")
-                logger.warning(f"  Response*
+                logger.warning(f"  Response size: {len(response.text)} bytes")
+                failed_submissions += 1
+        
+        except KeyError as e:
+            logger.error(f"  Row {index + 1}: Missing required field - {e}")
+            failed_submissions += 1
+        except requests.exceptions.Timeout:
+            logger.error(f"  Row {index + 1}: Request timeout")
+            failed_submissions += 1
+        except Exception as e:
+            logger.error(f"  Row {index + 1}: {type(e).__name__} - {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            failed_submissions += 1
+    
+    logger.info("=" * 60)
+    logger.info(f"Form submission process complete!")
+    logger.info(f"Successful: {successful_submissions}/{len(df)}")
+    logger.info(f"Failed: {failed_submissions}/{len(df)}")
+    
+    return failed_submissions == 0
+
+
+def main():
+    """Main execution"""
+    logger.info("\n" + "=" * 60)
+    logger.info("BUDGET SYNC STARTED")
+    logger.info("=" * 60 + "\n")
+    
+    # Step 1: Fetch data from Sheety
+    if not get_data_from_sheety():
+        logger.error("\n❌ Failed to fetch data from Sheety. Exiting.")
+        return False
+    
+    # Step 2: Process and send to Google Form
+    if not process_and_send():
+        logger.error("\n⚠️  Form submission completed with errors.")
+        return False
+    
+    logger.info("\n✓ BUDGET SYNC COMPLETED SUCCESSFULLY\n")
+    return True
+
+
+if __name__ == "__main__":
+    success = main()
+    sys.exit(0 if success else 1)
